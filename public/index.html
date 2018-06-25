@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Google place autocomplete Google Map -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAROheDs8XnCbksVXbJ1b6vfgSCHx3iQPk&libraries=places&language=en" async defer></script>
+	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6_ltiNkHEz4YJVLpvTJH548GgJNk4DOM&libraries=places&language=en" async defer></script> -->
+
+	<!-- JQuery & Popper.js -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<!-- icon -->
+	<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+
+	<!-- Rating Star -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+
+	<!-- Angular JS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
+
+	<!-- Twitter -->
+	<script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
+
+	<!-- luxon -->
+	<script src="luxon.min.js"></script>
+
+	<!-- my script -->
+	<script type="text/javascript" src="aux.js"></script>
+	<script type="text/javascript" src="jQ.js"></script>
+	<script type="text/javascript" src="jF.js"></script>
+	<script type="text/javascript" src="getCurLatLng.js"></script>
+
+	<title>CS571 Web HW8</title>
+</head>
+<body>
+
+	<div id="searchBlock" class="form-group container p-3 mb-2 bg-light text-dark border ">
+			<h3 class="text-center">Travel and Entertainment Search</h3>
+			<form id="form" class="container justify-content-center" method="post" action="/SendForm">
+				<div class="form-group row justify-content-center">
+					<label for="tf_keyword" class="col-sm-2 col-form-label">Keyword<span class="text-danger">*</span></label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="tf_keyword" name="keyword" value="" oninput="checkValidKeyword()" required>
+						<div id="keywordInvalid" class="invalid-feedback">Please enter a keyword.</div>
+					</div>
+				</div>
+
+				<div class="form-group row justify-content-center">
+					<label for="category" class="col-sm-2 col-form-label">Category</label>
+					<div class="col-sm-8">
+						<select name="category" id="category" class="custom-select custom-select-sm"> 
+							<option value="default">Default</option>
+
+							<option value="airport">Airport</option>
+							<option value="amusement park">Amusement Park</option>
+							<option value="aquarium">Aquarium</option>
+							<option value="art gallery">Art Gallery</option>
+
+							<option value="bakery">Bakery</option>
+							<option value="bar">Bar</option>
+							<option value="beauty salon">Beauty Salon</option>
+							<option value="bowling alley">Bowling Alley</option>
+							<option value="bus station">Bus Station</option>
+
+							<option value="cafe">Cafe</option>
+							<option value="campground">Campground</option>
+							<option value="car rental">Car Rental</option>
+							<option value="casino">Casino</option>
+
+							<option value="lodging">Lodging</option>
+
+							<option value="movie theater">Movie Theater</option>
+							<option value="museum">Museum</option>
+
+							<option value="night club">Night Club</option>
+
+							<option value="park">Park</option>
+							<option value="parking">Parking</option>
+
+							<option value="restaurant">Restaurant</option>
+							
+							<option value="shopping mall">Shopping Mall</option>
+							<option value="stadium">Stadium</option>
+							<option value="subway station">Subway Station</option>
+
+							<option value="taxi stand">Taxi Stand</option>
+							<option value="train station">Train Station</option>
+							<option value="transit station">Transit Station</option>
+							<option value="travel agency">Travel Agency</option>
+							
+							<option value="zoo">Zoo</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group row justify-content-center">
+					<label for="tf_dis" class="col-sm-2 col-form-label">Distance (miles)</label>
+					<div class="col-sm-8">
+						<input id="tf_dis" class="form-control form-control-sm" type="number" name="distance" value="" placeholder="10">
+					</div>
+				</div>
+
+				<div class="form-group row justify-content-center">
+					<label class="col-sm-2 col-form-label">From<span class="text-danger">*</span></label>
+					<div class="col-sm-8">
+						<div class="container">
+								<div class="row">
+									<input id="r1" type="radio" name="locRadio" checked="false" onclick="disableTf()">
+									<div class="col-sm-8">Current location</div>
+								</div>
+								<div class="row">
+									<input id="r2" type="radio" name="locRadio" checked="false" onclick="enableTf()">
+									<div class="col-sm-8">Other, please specify:</div>
+								</div>
+								<div class="row">
+									<input id="tf_place" class="form-control form-control-sm" type="text" name="location" value="" placeholder="Enter a location" size="36" disabled required oninput="checkValidPlace()">
+									<div class="invalid-feedback">Please enter a location.</div>
+								</div>
+							</div>
+					</div>
+				</div>
+
+				<div class="form-group row justify-content-center">
+					<div class="col-sm-2">
+						<div class="row">
+							<button class="btn btn-primary col-sm" id="mySubmit" type="button" name="search" value="" disabled><i class="fa fa-search"></i>Search</button>
+							<button class="btn btn-light col-sm" type="button" name="clear" onclick="resetForm()">Clear</button>
+						</div>
+					</div>
+					<div class="col-sm-8"></div>
+				</div>
+
+			</form> 
+	</div>
+
+	<div id="results_favorites_tab" class="container">
+		<div class="row justify-content-center">
+			<button id="result_btn" class="btn btn-primary" onclick="showResults()">Results</button>
+			<button id="favorite_btn" class="btn" onclick="showFavorites()">Favorites</button>
+		</div>
+	</div>
+
+	<div id="resultArea" class="container" style="margin-top: 30px;">
+		
+	</div>
+
+	<div id="favoriteArea" class="container" style="margin-top: 30px; display: none">
+		
+	</div>
+	
+	<div id="openhoursPanel">
+		
+	</div>
+	<div id="openhoursPanel_f">
+		
+	</div>
+
+
+</body>
+<script type="text/javascript">
+	resetForm();
+	var tf_placeAutocomplete = new google.maps.places.Autocomplete((document.getElementById('tf_place')),{types: ['geocode']});
+</script>
+	
+</html>
